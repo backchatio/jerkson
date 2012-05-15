@@ -2,8 +2,6 @@ package com.codahale.jerkson.tests
 
 import com.codahale.jerkson.Json._
 import com.codahale.simplespec.Spec
-import com.codahale.jerkson.ParsingException
-import org.codehaus.jackson.node.IntNode
 import org.junit.Test
 
 class EitherSupportSpec extends Spec {
