@@ -3,6 +3,7 @@ package com.codahale.jerkson.ser
 import java.lang.reflect.Modifier
 import com.codahale.jerkson.JsonSnakeCase
 import com.codahale.jerkson.Util._
+import com.fasterxml.jackson.databind.jsontype.TypeSerializer
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.annotation.{JsonIgnore, JsonIgnoreProperties}
 import com.fasterxml.jackson.databind.{SerializerProvider, JsonSerializer}
@@ -23,9 +24,20 @@ class CaseClassSerializer[A <: Product](klass: Class[_]) extends JsonSerializer[
   private val methods = klass.getDeclaredMethods
                                 .filter { _.getParameterTypes.isEmpty }
                                 .map { m => m.getName -> m }.toMap
-  
+
+  override def serializeWithType(value: A, json: JsonGenerator, provider: SerializerProvider, typeSerializer: TypeSerializer) {
+    typeSerializer.writeTypePrefixForObject(value, json)
+    doSerialize(value, json, provider)
+    typeSerializer.writeTypeSuffixForObject(value, json)
+  }
+
   def serialize(value: A, json: JsonGenerator, provider: SerializerProvider) {
     json.writeStartObject()
+    doSerialize(value, json, provider)
+    json.writeEndObject()
+  }
+
+  def doSerialize(value: A, json: JsonGenerator, provider: SerializerProvider) {
     for (field <- nonIgnoredFields) {
       val methodOpt = methods.get(field.getName)
       val fieldValue: Object = methodOpt.map { _.invoke(value) }.getOrElse(field.get(value))
@@ -34,6 +46,6 @@ class CaseClassSerializer[A <: Product](klass: Class[_]) extends JsonSerializer[
         provider.defaultSerializeField(if (isSnakeCase) snakeCase(fieldName) else fieldName, fieldValue, json)
       }
     }
-    json.writeEndObject()
   }
+
 }
