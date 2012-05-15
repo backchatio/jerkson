@@ -4,7 +4,8 @@ Jerkson
 *Because I think you should use JSON.*
 
 Jerkson is a Scala wrapper for [Jackson](http://jackson.codehaus.org/) which
-brings Scala's ease-of-use to Jackson's features.
+brings Scala's ease-of-use to Jackson's features. This library got started by codahale.
+I've just applied a bunch of the open pull requests and republished to maven.
 
 
 Requirements
@@ -20,18 +21,11 @@ Setting Up Your Project
 Go ahead and add Jerkson as a dependency:
 
 ```xml
-<repositories>
-  <repository>
-    <id>repo.codahale.com</id>
-    <url>http://repo.codahale.com</url>
-  </repository>
-</repositories>
-
 <dependencies>
   <dependency>
-    <groupId>com.codahale</groupId>
+    <groupId>io.backchat.jerkson</groupId>
     <artifactId>jerkson_${scala.version}</artifactId>
-    <version>0.5.0</version>
+    <version>0.6.0</version>
   </dependency>
 </dependencies>
 ```
@@ -60,7 +54,7 @@ for (person <- stream[Person](inputStream)) {
 }
 ```
 
-For more examples, check out the [specs](https://github.com/codahale/jerkson/blob/master/src/test/scala/com/codahale/jerkson/tests/).
+For more examples, check out the [specs](https://github.com/backchatio/jerkson/blob/master/src/test/scala/com/codahale/jerkson/tests/).
 
 
 Generating JSON
@@ -74,7 +68,7 @@ generate(List(1, 2, 3)) //=> [1,2,3]
 generate(Map("one"->1, "two"->"dos")) //=> {"one":1,"two":"dos"}
 ```
 
-For more examples, check out the [specs](https://github.com/codahale/jerkson/blob/master/src/test/scala/com/codahale/jerkson/tests/).
+For more examples, check out the [specs](https://github.com/backchatio/jerkson/blob/master/src/test/scala/com/codahale/jerkson/tests/).
 
 
 Handling `snake_case` Field Names
