@@ -1,11 +1,11 @@
 package com.codahale.jerkson.deser
 
-import com.fasterxml.jackson.databind.{DeserializationContext, JsonDeserializer}
 import com.fasterxml.jackson.core.{JsonToken, JsonParser}
 import com.codahale.jerkson.AST._
 import collection.mutable.ArrayBuffer
 import com.fasterxml.jackson.databind.`type`.TypeFactory
 import com.codahale.jerkson.Types
+import com.fasterxml.jackson.databind.{DeserializationFeature, DeserializationContext, JsonDeserializer}
 
 class JValueDeserializer(factory: TypeFactory, klass: Class[_]) extends JsonDeserializer[Object] {
   def deserialize(jp: JsonParser, ctxt: DeserializationContext): Object = {
@@ -16,7 +16,9 @@ class JValueDeserializer(factory: TypeFactory, klass: Class[_]) extends JsonDese
     val value = jp.getCurrentToken match {
       case JsonToken.VALUE_NULL => JNull
       case JsonToken.VALUE_NUMBER_INT => JInt(BigInt(jp.getText))
-      case JsonToken.VALUE_NUMBER_FLOAT => JFloat(jp.getDoubleValue)
+      case JsonToken.VALUE_NUMBER_FLOAT =>
+        if (ctxt.isEnabled(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)) JDecimal(jp.getDecimalValue)
+        else JFloat(jp.getDoubleValue)
       case JsonToken.VALUE_STRING => JString(jp.getText)
       case JsonToken.VALUE_TRUE => JBoolean(true)
       case JsonToken.VALUE_FALSE => JBoolean(false)

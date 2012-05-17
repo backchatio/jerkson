@@ -19,9 +19,12 @@ object AST {
 
   case class JBoolean(value: Boolean) extends JValue
 
-  case class JInt(value: BigInt) extends JValue
+  sealed trait JNumber extends JValue
+  case class JInt(value: BigInt) extends JNumber
 
-  case class JFloat(value: Double) extends JValue
+  case class JFloat(value: Double) extends JNumber
+
+  case class JDecimal(value: BigDecimal) extends JNumber
 
   case class JString(value: String) extends JValue
 

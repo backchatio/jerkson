@@ -10,6 +10,7 @@ class JValueSerializer extends JsonSerializer[JValue] {
     value match {
       case JInt(v) => json.writeNumber(new BigInteger(v.toString()))
       case JFloat(v) => json.writeNumber(v)
+      case JDecimal(v) => json.writeNumber(v.bigDecimal)
       case JString(v) => json.writeString(v)
       case JBoolean(v) => json.writeBoolean(v)
       case JArray(elements) => json.writeObject(elements)

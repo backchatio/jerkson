@@ -1,12 +1,14 @@
 package com.codahale.jerkson.tests
 
-import com.codahale.jerkson.Json._
+
 import com.codahale.jerkson.AST._
 import com.codahale.simplespec.Spec
 import org.junit.Test
+import com.codahale.jerkson.Json
+import com.fasterxml.jackson.databind.DeserializationFeature
 
 class ASTTypeSupportSpec extends Spec {
-  class `An AST.JInt` {
+  class `An AST.JInt` extends Json {
     @Test def `generates a JSON int` = {
       generate(JInt(15)).must(be("15"))
     }
@@ -20,7 +22,7 @@ class ASTTypeSupportSpec extends Spec {
     }
   }
 
-  class `An AST.JFloat` {
+  class `An AST.JFloat` extends Json  {
     @Test def `generates a JSON int` = {
       generate(JFloat(15.1)).must(be("15.1"))
     }
@@ -35,7 +37,25 @@ class ASTTypeSupportSpec extends Spec {
   }
 
 
-  class `An AST.JString` {
+  class `An AST.JDecimal` extends Json  {
+
+    mapper.enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)
+
+    @Test def `generates a JSON int` = {
+      generate(JDecimal(BigDecimal(15.1))).must(be("15.1"))
+    }
+
+    @Test def `is parsable from a JSON float` = {
+      parse[JDecimal]("15.1").must(be(JDecimal(BigDecimal(15.1))))
+    }
+
+    @Test def `is parsable from a JSON float as a JValue` = {
+      parse[JValue]("15.1").must(be(JDecimal(BigDecimal(15.1))))
+    }
+  }
+
+
+  class `An AST.JString` extends Json  {
     @Test def `generates a JSON string` = {
       generate(JString("woo")).must(be("\"woo\""))
     }
@@ -49,7 +69,7 @@ class ASTTypeSupportSpec extends Spec {
     }
   }
 
-  class `An AST.JNull` {
+  class `An AST.JNull` extends Json  {
     @Test def `generates a JSON null` = {
       generate(JNull).must(be("null"))
     }
@@ -67,7 +87,7 @@ class ASTTypeSupportSpec extends Spec {
     }
   }
 
-  class `An AST.JBoolean` {
+  class `An AST.JBoolean` extends Json {
     @Test def `generates a JSON true` = {
       generate(JBoolean(true)).must(be("true"))
     }
@@ -93,7 +113,7 @@ class ASTTypeSupportSpec extends Spec {
     }
   }
 
-  class `An AST.JArray of JInts` {
+  class `An AST.JArray of JInts` extends Json  {
     @Test def `generates a JSON array of ints` = {
       generate(JArray(List(JInt(1), JInt(2), JInt(3)))).must(be("[1,2,3]"))
     }
@@ -107,7 +127,7 @@ class ASTTypeSupportSpec extends Spec {
     }
   }
 
-  class `An AST.JObject` {
+  class `An AST.JObject` extends Json  {
     val obj = JObject(List(JField("id", JInt(1)), JField("name", JString("Coda"))))
 
     @Test def `generates a JSON object with matching field values` = {
