@@ -1,16 +1,41 @@
 package com.codahale.jerkson
 
 object AST {
-  sealed trait JValue {
+  object JValue extends Merge.Mergeable
+  sealed trait JValue extends Diff.Diffable {
     def value: Any
     
     def valueAs[A]: A = value.asInstanceOf[A]
     
-    def \(fieldName: String): JValue = JNull
+    def \(fieldName: String): JValue = JUndefined
     
-    def apply(idx: Int): JValue = JNull
+    def apply(idx: Int): JValue = JUndefined
     
     def \\(fieldName: String): Seq[JValue] = Nil
+
+    /** Concatenate with another JSON.
+     * This is a concatenation monoid: (JValue, ++, JNothing)
+     * <p>
+     * Example:<pre>
+     * JArray(JInt(1) :: JInt(2) :: Nil) ++ JArray(JInt(3) :: Nil) ==
+     * JArray(List(JInt(1), JInt(2), JInt(3)))
+     * </pre>
+     */
+    def ++(other: JValue) = {
+      def append(value1: JValue, value2: JValue): JValue = (value1, value2) match {
+        case (JUndefined, x) => x
+        case (x, JUndefined) => x
+        case (JObject(xs), x: JField) => JObject(xs ::: List(x))
+        case (x: JField, JObject(xs)) => JObject(x :: xs)
+        case (JArray(xs), JArray(ys)) => JArray(xs ::: ys)
+        case (JArray(xs), v: JValue) => JArray(xs ::: List(v))
+        case (v: JValue, JArray(xs)) => JArray(v :: xs)
+        case (f1: JField, f2: JField) => JObject(f1 :: f2 :: Nil)
+        case (JField(n, v1), v2: JValue) => JField(n, append(v1, v2))
+        case (x, y) => JArray(x :: y :: Nil)
+      }
+      append(this, other)
+    }
   }
 
   case object JNull extends JValue {
@@ -28,6 +53,10 @@ object AST {
 
   case class JString(value: String) extends JValue
 
+  case object JUndefined extends JValue {
+    val value = None
+  }
+
   case class JArray(elements: List[JValue]) extends JValue {
     def value = null
     
@@ -35,7 +64,7 @@ object AST {
       try {
         elements(index)
       } catch {
-        case _ => JNull
+        case _ => JUndefined
       }
     }
   }
@@ -46,11 +75,9 @@ object AST {
     def value = null
     
     override def \(fieldName: String): JValue = {
-      fields.find { case JField(name, _) =>
-        name == fieldName
-      }.map { case JField(_, value) =>
-        value
-      }.getOrElse(JNull)
+      fields collectFirst {
+        case JField(`fieldName`, value) => value
+      } getOrElse JUndefined
     }
     
     override def \\(fieldName: String): Seq[JValue] = {

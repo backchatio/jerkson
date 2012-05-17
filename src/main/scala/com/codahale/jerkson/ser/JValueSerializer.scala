@@ -24,6 +24,7 @@ class JValueSerializer extends JsonSerializer[JValue] {
         json.writeEndObject()
       }
       case JNull => json.writeNull()
+      case JUndefined => ()
     }
   }
 }

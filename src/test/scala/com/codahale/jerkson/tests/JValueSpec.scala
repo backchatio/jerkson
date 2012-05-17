@@ -8,11 +8,11 @@ import org.junit.Test
 class JValueSpec extends Spec {
   class `Selecting single nodes` {
     @Test def `returns None with primitives` = {
-      (parse[JValue]("8") \ "blah").must(be(JNull))
+      (parse[JValue]("8") \ "blah").must(be(JUndefined))
     }
     
     @Test def `returns None on nonexistent fields` = {
-      (parse[JValue]("{\"one\": \"1\"}") \ "two").must(be(JNull))
+      (parse[JValue]("{\"one\": \"1\"}") \ "two").must(be(JUndefined))
     }
     
     @Test def `returns a JValue with an existing field` = {
@@ -22,11 +22,11 @@ class JValueSpec extends Spec {
   
   class `Selecting array members` {
     @Test def `returns None with primitives` = {
-      (parse[JValue]("\"derp\"").apply(0)).must(be(JNull))
+      (parse[JValue]("\"derp\"").apply(0)).must(be(JUndefined))
     }
     
     @Test def `returns None on out of bounds` = {
-      (parse[JValue]("[0, 1, 2, 3]").apply(4)).must(be(JNull))
+      (parse[JValue]("[0, 1, 2, 3]").apply(4)).must(be(JUndefined))
     }
     
     @Test def `returns a JValue` = {
