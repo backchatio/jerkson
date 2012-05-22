@@ -287,4 +287,20 @@ class CaseClassSupportSpec extends Spec {
       ))
     }
   }
+
+  class `A case class with defaults` {
+    @Test def `is parseable from a JSON object` = {
+      val c = parse[CaseClassWithDefaults]("""{"name": "an object with a default"}""")
+      c.name.must(be("an object with a default"))
+      c.price.must(be(10L))
+    }
+  }
+
+  class `A case class with aliased types` {
+    @Test def `is parseable from a JSON object` = {
+      val c = parse[CaseClassWithAliasedTypes]("""{"name": "an object with aliased types", "long": 123456}""")
+      c.name.must(be("an object with aliased types"))
+      c.long.must(be(123456L))
+    }
+  }
 }
