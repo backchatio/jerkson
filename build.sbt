@@ -6,7 +6,7 @@ name := "jerkson"
 
 version := "0.7.0-SNAPSHOT"
 
-organization := "io.backchat.jerkson"
+organization := "com.codahale"
 
 javacOptions ++= Seq("-Xlint:unchecked", "-source", "1.6", "-target", "1.6", "-Xlint:deprecation")
 
