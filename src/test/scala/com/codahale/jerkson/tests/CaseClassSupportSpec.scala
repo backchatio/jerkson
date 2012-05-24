@@ -32,6 +32,13 @@ class CaseClassSupportSpec extends Spec {
       parse[CaseClassWithDefaultString]("""{"id":1}""").must(be(CaseClassWithDefaultString(1, "Coda")))
       parse[CaseClassWithDefaultInt]("""{"id":1}""").must(be(CaseClassWithDefaultInt(1, 42)))
     }
+    @Test def `calculates default field at deserialization time` = {
+      parse[CaseClassWithDefaultString]("""{"id":1}""").must(be(parse[CaseClassWithDefaultString]("""{"id":1}""")))
+      parse[CaseClassWithDefaultInt]("""{"id":1}""").must(be(parse[CaseClassWithDefaultInt]("""{"id":1}""")))
+      val older = parse[CaseClassWithDefaultDate]("""{"id":1}""")
+      Thread.sleep(1)
+      parse[CaseClassWithDefaultDate]("""{"id":1}""").now.must(not(be(older.now)))
+    }
   }
 
   class `A case class with lazy fields` {

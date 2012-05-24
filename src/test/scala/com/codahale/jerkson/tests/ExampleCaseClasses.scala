@@ -9,6 +9,7 @@ case class CaseClass(id: Long, name: String)
 case class CaseClassWithoutValues()
 case class CaseClassWithDefaultString(id: Long, name: String = "Coda")
 case class CaseClassWithDefaultInt(id: Long, answer: Int = 42)
+case class CaseClassWithDefaultDate(id: Long, now: java.util.Date = new java.util.Date)
 
 @JsonTypeInfo(use=JsonTypeInfo.Id.MINIMAL_CLASS)
 trait WithTypeInfo

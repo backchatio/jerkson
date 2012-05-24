@@ -62,10 +62,7 @@ class CaseClassDeserializer(config: DeserializationConfig,
         values += value
       } else {
         // see if a default value was supplied
-        paramDefault match {
-          case Some(v) => values += v
-          case None =>
-        }
+        paramDefault foreach { values += _() }
       }
 
     }
