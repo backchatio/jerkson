@@ -25,7 +25,7 @@ Go ahead and add Jerkson as a dependency:
   <dependency>
     <groupId>io.backchat.jerkson</groupId>
     <artifactId>jerkson_${scala.version}</artifactId>
-    <version>0.6.0</version>
+    <version>0.7.0</version>
   </dependency>
 </dependencies>
 ```

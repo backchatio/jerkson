@@ -1,12 +1,12 @@
 import scala.xml.Group
 
-scalaVersion := "2.9.2"
+scalaVersion := "2.9.1"
 
 name := "jerkson"
 
 version := "0.7.0"
 
-organization := "com.codahale"
+organization := "io.backchat.jerkson"
 
 javacOptions ++= Seq("-Xlint:unchecked", "-source", "1.6", "-target", "1.6", "-Xlint:deprecation")
 
