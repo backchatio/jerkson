@@ -1,10 +1,10 @@
 import scala.xml.Group
 
-scalaVersion := "2.9.1"
+scalaVersion := "2.9.2"
 
 name := "jerkson"
 
-version := "0.7.0-SNAPSHOT"
+version := "0.7.0"
 
 organization := "io.backchat.jerkson"
 
@@ -15,10 +15,10 @@ scalacOptions ++= Seq("-optimise", "-unchecked", "-deprecation", "-Xcheckinit", 
 autoCompilerPlugins := true
 
 libraryDependencies ++= Seq(
-  "com.fasterxml.jackson.core" % "jackson-core" % "2.0.1",
-  "com.fasterxml.jackson.core" % "jackson-databind" % "2.0.1",
+  "com.fasterxml.jackson.core" % "jackson-core" % "2.0.5",
+  "com.fasterxml.jackson.core" % "jackson-databind" % "2.0.5",
   compilerPlugin("com.nativelibs4java" % "scalacl-compiler-plugin" % "0.2"),
-  "com.codahale" %% "simplespec" % "0.5.2" % "test"
+  "com.codahale" % "simplespec_2.9.1" % "0.5.2" % "test"
 )
 
 resolvers += "NativeLibs4Java Repository" at "http://nativelibs4java.sourceforge.net/maven/"

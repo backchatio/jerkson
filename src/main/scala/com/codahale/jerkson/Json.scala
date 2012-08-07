@@ -19,4 +19,27 @@ trait Json extends Parser with Generator {
   factory.enable(JacksonParser.Feature.ALLOW_COMMENTS)
   factory.enable(JacksonParser.Feature.AUTO_CLOSE_SOURCE)
 
+
+  type JValue     = AST.JValue
+  val  JValue     = AST.JValue
+  val  JUndefined = AST.JUndefined
+  val  JNull      = AST.JNull
+  type JString    = AST.JString
+  val  JString    = AST.JString
+  type JFloat     = AST.JFloat
+  val  JFloat     = AST.JFloat
+  type JDecimal   = AST.JDecimal
+  val  JDecimal   = AST.JDecimal
+  type JInt       = AST.JInt
+  val  JInt       = AST.JInt
+  type JBoolean   = AST.JBoolean
+  val  JBoolean   = AST.JBoolean
+  type JField     = AST.JField
+  val  JField     = AST.JField
+  type JObject    = AST.JObject
+  val  JObject    = AST.JObject
+  type JArray     = AST.JArray
+  val  JArray     = AST.JArray
+  type JNumber    = AST.JNumber
+
 }

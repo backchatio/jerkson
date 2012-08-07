@@ -8,6 +8,39 @@ import com.codahale.jerkson.Json
 import com.fasterxml.jackson.databind.DeserializationFeature
 
 class ASTTypeSupportSpec extends Spec {
+//  "An AST.JInt" ^
+//    "generates a JSON int" ! {generate(JInt(15)) must_== "15"} ^
+//    "is parsable from a JSON int" ! {parse[JInt]("15").must(be(JInt(15)))} ^
+//    "is parsable from a JSON int as a JValue" ! {parse[JValue]("15").must(be(JInt(15)))} ^ bt ^
+//  "An AST.JFloat" ^
+//    "generates a JSON number" ! {generate(JFloat(15.1)).must(be("15.1"))} ^
+//    "is parsable from a JSON number" ! {parse[JFloat]("15.1").must(be(JFloat(15.1)))} ^
+//    "is parsable from a JSON number as a JValue" ! {parse[JValue]("15.1").must(be(JFloat(15.1)))} ^ bt ^
+//  "An AST.JInt" ^
+//    "generates a JSON int" ! {generate(JInt(15)) must_== "15"} ^
+//    "is parsable from a JSON int" ! {parse[JInt]("15").must(be(JInt(15)))} ^
+//    "is parsable from a JSON int as a JValue" ! {parse[JValue]("15").must(be(JInt(15)))} ^ bt ^
+//  "An AST.JInt" ^
+//    "generates a JSON int" ! {generate(JInt(15)) must_== "15"} ^
+//    "is parsable from a JSON int" ! {parse[JInt]("15").must(be(JInt(15)))} ^
+//    "is parsable from a JSON int as a JValue" ! {parse[JValue]("15").must(be(JInt(15)))} ^ bt ^
+//  "An AST.JInt" ^
+//    "generates a JSON int" ! {generate(JInt(15)) must_== "15"} ^
+//    "is parsable from a JSON int" ! {parse[JInt]("15").must(be(JInt(15)))} ^
+//    "is parsable from a JSON int as a JValue" ! {parse[JValue]("15").must(be(JInt(15)))} ^ bt ^
+//  "An AST.JInt" ^
+//    "generates a JSON int" ! {generate(JInt(15)) must_== "15"} ^
+//    "is parsable from a JSON int" ! {parse[JInt]("15").must(be(JInt(15)))} ^
+//    "is parsable from a JSON int as a JValue" ! {parse[JValue]("15").must(be(JInt(15)))} ^ bt ^
+//  "An AST.JInt" ^
+//    "generates a JSON int" ! {generate(JInt(15)) must_== "15"} ^
+//    "is parsable from a JSON int" ! {parse[JInt]("15").must(be(JInt(15)))} ^
+//    "is parsable from a JSON int as a JValue" ! {parse[JValue]("15").must(be(JInt(15)))} ^ bt ^
+//  "An AST.JInt" ^
+//    "generates a JSON int" ! {generate(JInt(15)) must_== "15"} ^
+//    "is parsable from a JSON int" ! {parse[JInt]("15").must(be(JInt(15)))} ^
+//    "is parsable from a JSON int as a JValue" ! {parse[JValue]("15").must(be(JInt(15)))} ^ bt ^
+//  end
   class `An AST.JInt` extends Json {
     @Test def `generates a JSON int` = {
       generate(JInt(15)).must(be("15"))

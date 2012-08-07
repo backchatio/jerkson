@@ -36,10 +36,12 @@ object AST {
       }
       append(this, other)
     }
+
+    def merge(other: JValue) = Merge.merge(this, other)
   }
 
   case object JNull extends JValue {
-    def value = null
+    def value: Any = null
   }
 
   case class JBoolean(value: Boolean) extends JValue

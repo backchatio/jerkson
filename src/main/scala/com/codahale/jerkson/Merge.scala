@@ -1,5 +1,21 @@
 package com.codahale.jerkson
 
+/*
+ * Copyright 2009-2010 WorldWide Conferencing, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import AST._
 /** Use fundep encoding to improve return type of merge function 
  *  (see: http://www.chuusai.com/2011/07/16/fundeps-in-scala/)
@@ -30,7 +46,7 @@ private[jerkson] trait LowPriorityMergeDep {
 
 private[jerkson] trait MergeDeps extends LowPriorityMergeDep {
   implicit object ooo extends MergeDep[JObject, JObject, JObject] {
-    def apply(val1: JObject, val2: JObject): JObject = JObject(Merge.mergeFields(val1.value, val2.value))
+    def apply(val1: JObject, val2: JObject): JObject = JObject(Merge.mergeFields(val1.fields, val2.fields))
   }
 
   implicit object aaa extends MergeDep[JArray, JArray, JArray] {
@@ -81,7 +97,7 @@ object Merge {
 
     class MergeSyntax[A <: JValue](json: A) {
       /** Return merged JSON.
-       * @see net.liftweb.json.Merge#merge
+       * @see com.codahale.jerkson.Merge#merge
        */
       def merge[B <: JValue, R <: JValue](other: B)(implicit instance: MergeDep[A, B, R]): R = 
         Merge.merge(json, other)(instance)
