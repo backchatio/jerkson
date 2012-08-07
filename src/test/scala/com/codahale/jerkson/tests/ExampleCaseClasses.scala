@@ -7,6 +7,9 @@ import com.codahale.jerkson.JsonSnakeCase
 case class CaseClass(id: Long, name: String)
 
 case class CaseClassWithoutValues()
+case class CaseClassWithDefaultString(id: Long, name: String = "Coda")
+case class CaseClassWithDefaultInt(id: Long, answer: Int = 42)
+case class CaseClassWithDefaultDate(id: Long, now: java.util.Date = new java.util.Date)
 
 @JsonTypeInfo(use=JsonTypeInfo.Id.MINIMAL_CLASS)
 trait WithTypeInfo
@@ -81,3 +84,9 @@ case class CaseClassWithSnakeCase(oneThing: String, twoThing: String)
 case class CaseClassWithArrays(one: String, two: Array[String], three: Array[Int])
 
 case class CaseClassWithParameter[T](id: Long, list: List[T])
+
+package object somepackage {
+  type VeryLong = java.lang.Long
+}
+
+case class CaseClassWithAliasedTypes(name: String, long: somepackage.VeryLong)
